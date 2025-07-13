@@ -1,24 +1,76 @@
-*.log
-.DS_Store
-.env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
-/.fleet
-/.idea
-/.nova
-/.phpunit.cache
-/.vscode
-/.zed
-/auth.json
-/node_modules
-/public/build
-/public/hot
-/public/storage
+### Laravel ###
+/.env
+/.env.*.local
+/.env.backup
+/.env.production
 /storage/*.key
+/public/storage
+/public/hot
+/public/build
 /storage/pail
 /vendor
+/node_modules
+/bootstrap/cache/*.php
+/database/database.sqlite
+/database/*.sqlite
+build/logs/
+*.log
+public_html
+
+### IDE ###
+/.idea/httpRequests
+/.idea/php.xml
+/.idea
+/.vscode
+/.fleet
+/.nova
+/.zed
+_ide_helper.php
+.phpstorm.meta.php
+.phpactor.json
+.DS_Store
+Thumbs.db
+
+### Testing ###
+/.phpunit.cache
+/.phpunit.result.cache
+/coverage
+/reports
+
+### Composer ###
+/composer.phar
+/auth.json
+
+### Frontend ###
+npm-debug.log
+yarn-error.log
+/.yarn-integrity
+/.yarn/cache
+/.yarn/unplugged
+/.yarn/build-state.yml
+/.yarn/install-state.gz
+.pnp.*
+.yarn/*
+
+### Deployment ###
 Homestead.json
 Homestead.yaml
-Thumbs.db
+deploy.php
+
+### OS generated ###
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+[Tt]humbs.db
+
+### Docker ###
+docker-compose.override.yml
+/.docker
+*.back
+*.bak
+*.orig
+*.swp
+*.swo

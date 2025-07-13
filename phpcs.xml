@@ -1,0 +1,32 @@
+<ruleset name="LaravelProject">
+    <description>PHP_CodeSniffer ruleset for Laravel project</description>
+    <!--  Подключаем PSR-12 как основной стандарт  -->
+    <rule ref="PSR12"/>
+    <!--  Проверяем эти директории  -->
+    <file>app</file>
+    <file>routes</file>
+    <file>tests</file>
+    <!--  Игнорируем frontend-сборку и сторонние файлы  -->
+    <exclude-pattern>database/migrations/*</exclude-pattern>
+    <exclude-pattern>storage/*</exclude-pattern>
+    <exclude-pattern>bootstrap/cache/*</exclude-pattern>
+    <exclude-pattern>public/build/*</exclude-pattern>
+    <exclude-pattern>public/js/*</exclude-pattern>
+    <exclude-pattern>public/css/*</exclude-pattern>
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>node_modules/*</exclude-pattern>
+    <!--  Отключаем правило, на которое ругается index.php (PSR1 требует без side effects)  -->
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <severity>0</severity>
+    </rule>
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <severity>0</severity>
+        <!--  Игнорируем для моделей  -->
+    </rule>
+    <rule ref="Zend.Files.ClosingTag">
+        <exclude-pattern>*.blade.php</exclude-pattern>
+    </rule>
+    <rule ref="PSR1.Methods.CamelCapsMethodName">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+</ruleset>

@@ -1,61 +1,65 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# REST API Demo: CRUD
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<a href="https://vitaliy-6269192.postman.co/workspace/Vitaliy's-Workspace~ab563cff-2a9d-4821-8772-5be9eba8fe78/collection/44433849-cac0e50e-3f63-489f-91a7-83f29f82998a?action=share&creator=44433849" target="_blank">Ссылка на коллекцию Postman</a>
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Демонстрационное REST API с тремя основными сущностями: пользователи (Users), категории (Categories) и посты (Posts).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Все маршруты защищены аутентификацией через Sanctum (Bearer Token).  
+Все запросы требуют передавать токен в заголовке `Authorization`. Токен настроен на уровне коллекции в Postman и автоматически применяется ко всем запросам. Токен можно получить через авторизацию.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Формат данных — JSON.  
+Все даты в формате `YYYY-MM-DD HH:mm:ss`.
 
-## Learning Laravel
+Ответы содержат поля:
+- `success` — статус выполнения запроса (true/false)
+- `message` — информационное сообщение
+- `data` — полезные данные (объект или массив)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Posts
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Основные маршруты:**
 
-## Laravel Sponsors
+- `GET /api/v1/posts` — получить список постов с пагинацией (3 на страницу)
+- `POST /api/v1/posts` — создать пост от имени текущего пользователя
+- `GET /api/v1/posts/{id}` — получить пост по ID
+- `PUT /api/v1/posts/{id}` — обновить пост (только автор может)
+- `DELETE /api/v1/posts/{id}` — удалить пост (только автор может)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Особенности:**
 
-### Premium Partners
+- При создании поста поле `user_id` подставляется автоматически из текущего пользователя.
+- Для обновления и удаления проверяется, что автор запроса — владелец поста.
+- Поля `title`, `content` и `category_id` обязательны при создании и обновлении.
+- `category_id` должен существовать в таблице категорий.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## Users
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Основные маршруты:**
+- `POST /api/v1/register` — регистрация пользователя
+- `POST /api/v1/login` — вход (возвращает токен)
+- `POST /api/v1/logout` — выход (требует токен)
 
-## Code of Conduct
+**Особенности:**
+- При успешной регистрации возвращается объект пользователя без пароля.
+- При входе возвращается токен в формате Bearer, который нужно использовать для дальнейших запросов.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## Categories
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Основные маршруты:**
+- `GET /api/v1/categories` — получить список категорий с пагинацией (3 на страницу)
+- `POST /api/v1/categories` — создать новую категорию
+- `GET /api/v1/categories/{id}` — получить категорию по ID
+- `PUT /api/v1/categories/{id}` — обновить категорию
+- `DELETE /api/v1/categories/{id}` — удалить категорию (если нет связанных постов)
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Особенности:**
+- Уникальное поле `title` обязательно при создании и обновлении.
+- При попытке удалить категорию с постами возвращается ошибка `409 Conflict`.
+- Все операции доступны аутентифицированным пользователям.
